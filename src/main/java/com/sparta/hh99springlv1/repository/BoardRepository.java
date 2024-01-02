@@ -113,4 +113,20 @@ public class BoardRepository {
         String sql = "DELETE FROM board WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
+
+    public boolean checkPassword(Long id, String inputPwd) {
+        String sql = "SELECT password FROM board WHERE id = ?";
+
+        String pwd =  jdbcTemplate.query(sql, resultSet -> {
+            if (resultSet.next()) {
+                Board board = new Board();
+                board.setPassword(resultSet.getString("password"));
+                return board.getPassword();
+            } else {
+                return null;
+            }
+        }, id);
+
+        return inputPwd.equals(pwd);
+    }
 }

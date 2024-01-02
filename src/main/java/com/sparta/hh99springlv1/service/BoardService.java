@@ -47,29 +47,43 @@ public class BoardService {
 
     public Long updateBoard(Long id, BoardRequestDto requestDto) {
         BoardRepository boardRepository = new BoardRepository(jdbcTemplate);
-        // 해당 게시물이 DB에 존재하는지 확인
-        Board board = boardRepository.findById(id);
-        if (board != null) {
-            // board 내용 수정
-            boardRepository.update(id, requestDto);
+ 
+        // 비밀번호 체크
+        if(boardRepository.checkPassword(id, requestDto.getPassword())){
+            // 해당 게시물이 DB에 존재하는지 확인
+            Board board = boardRepository.findById(id);
+            if (board != null) {
+                // board 내용 수정
+                boardRepository.update(id, requestDto);
 
-            return id;
+                return id;
+            } else {
+                throw new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.");
+            }
         } else {
-            throw new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.");
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
     }
 
-    public Long deleteBoard(Long id) {
+    public Long deleteBoard(Long id, String password) {
         BoardRepository boardRepository = new BoardRepository(jdbcTemplate);
-        // 해당 게시물이 DB에 존재하는지 확인
-        Board board = boardRepository.findById(id);
-        if (board != null) {
-            // board 삭제
-            boardRepository.delete(id);
+        // 비밀번호 체크
+        if (boardRepository.checkPassword(id, password)){
+            // 해당 게시물이 DB에 존재하는지 확인
+            Board board = boardRepository.findById(id);
 
-            return id;
+            if (board != null) {
+                // board 삭제
+                boardRepository.delete(id);
+
+                return id;
+            } else {
+                throw new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.");
+            }
         } else {
-            throw new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.");
+            throw new IllegalArgumentException("비밀번호가 틀렸습니다.");
         }
+
+
     }
 }

@@ -43,8 +43,8 @@ public class BoardController {
     }
 
     @DeleteMapping("/boards/{id}")
-    public ResponseEntity<Object> deleteBoard(@PathVariable Long id) {
-        return handleRequest(() -> boardService.deleteBoard(id), HttpStatus.OK, "게시물 삭제에 실패했습니다.");
+    public ResponseEntity<Object> deleteBoard(@PathVariable Long id, @RequestBody String password) {
+        return handleRequest(() -> boardService.deleteBoard(id, password), HttpStatus.OK, "게시물 삭제에 실패했습니다.");
     }
 
     private ResponseEntity<Object> handleRequest(ApiRequestHandler handler, HttpStatus successStatus, String errorMessage) {

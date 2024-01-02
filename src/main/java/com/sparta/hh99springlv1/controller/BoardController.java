@@ -3,6 +3,7 @@ package com.sparta.hh99springlv1.controller;
 import com.sparta.hh99springlv1.dto.BoardRequestDto;
 import com.sparta.hh99springlv1.dto.BoardResponseDto;
 import com.sparta.hh99springlv1.service.BoardService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Objects;
 
-@Controller
+@RestController
 @RequestMapping("/api")
+@Tag(name = "Board", description = "Board API")
 public class BoardController {
 
     private final BoardService boardService;

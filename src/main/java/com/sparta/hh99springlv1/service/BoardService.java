@@ -47,7 +47,7 @@ public class BoardService {
 
     public Long updateBoard(Long id, BoardRequestDto requestDto) {
         BoardRepository boardRepository = new BoardRepository(jdbcTemplate);
- 
+
         // 비밀번호 체크
         if(boardRepository.checkPassword(id, requestDto.getPassword())){
             // 해당 게시물이 DB에 존재하는지 확인
